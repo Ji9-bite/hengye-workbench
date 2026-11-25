@@ -1,0 +1,2412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>恒业 × 新月工作台 — 石化行情与内容中枢</title>
+  <style>
+    :root {
+      --n-50: #fafafa;
+      --n-100: #f5f5f5;
+      --n-200: #e5e5e5;
+      --n-300: #d4d4d4;
+      --n-400: #a3a3a3;
+      --n-500: #737373;
+      --n-600: #525252;
+      --n-700: #404040;
+      --n-800: #262626;
+      --n-900: #171717;
+      --n-950: #0a0a0a;
+      --blue-50: #eff6ff;
+      --blue-100: #dbeafe;
+      --blue-500: #3b82f6;
+      --blue-600: #2563eb;
+      --orange-50: #fff7ed;
+      --orange-100: #ffedd5;
+      --orange-500: #f97316;
+      --emerald-50: #ecfdf5;
+      --emerald-100: #d1fae5;
+      --emerald-600: #059669;
+      --violet-600: #7c3aed;
+      --teal-400: #2dd4bf;
+      --red-600: #dc2626;
+      --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", "SF Mono", Consolas, ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      background: var(--n-200);
+      color: var(--n-900);
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--n-300); border-radius: 3px; }
+
+    /* =========================================================================
+       Dub (dubinc/dub 835ff39f) 双层容器与双轨侧边栏
+       ========================================================================= */
+    .dub-shell {
+      display: grid;
+      grid-template-columns: 288px minmax(0, 1fr);
+      width: 100%;
+      height: 100dvh;
+      background: var(--n-200);
+    }
+
+    .dub-sidebar {
+      display: grid;
+      grid-template-columns: 60px minmax(0, 1fr);
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .dub-rail-icons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 6px;
+    }
+
+    .dub-brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--n-950);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+    }
+
+    .dub-group-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .dub-group-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--n-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .dub-group-btn:hover { background: rgba(0, 0, 0, 0.05); color: var(--n-950); }
+    .dub-group-btn.active { background: #ffffff; color: var(--n-950); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06); }
+
+    .dub-rail-panel-wrap {
+      padding: 8px 8px 8px 0;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .dub-rail-panel {
+      height: 100%;
+      background: var(--n-100);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      padding: 14px 10px;
+      overflow-y: auto;
+    }
+
+    .dub-panel-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--n-900);
+      padding: 4px 10px 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .dub-nav-section {
+      margin-bottom: 18px;
+    }
+    .dub-nav-label {
+      font-size: 12px;
+      color: var(--n-500);
+      padding: 4px 10px 6px;
+      font-weight: 500;
+    }
+
+    .dub-nav-item {
+      width: 100%;
+      height: 34px;
+      padding: 0 10px;
+      margin-bottom: 2px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--n-700);
+      font-size: 13.5px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.1s, color 0.1s;
+    }
+    .dub-nav-item:hover { background: rgba(0, 0, 0, 0.045); color: var(--n-950); }
+    .dub-nav-item.active {
+      background: rgba(219, 234, 254, 0.72);
+      color: var(--blue-600);
+      font-weight: 500;
+    }
+
+    .dub-rail-footer {
+      margin-top: auto;
+      padding: 10px 10px 2px;
+      border-top: 1px solid var(--n-200);
+      font-size: 11.5px;
+      color: var(--n-500);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* 右侧洁白主画布 */
+    .dub-main-wrap {
+      padding: 8px 8px 8px 0;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .dub-main-surface {
+      height: 100%;
+      background: #ffffff;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .dub-header {
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--n-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .dub-header-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--n-900);
+      letter-spacing: -0.02em;
+    }
+    .dub-header-sub {
+      font-size: 12.5px;
+      color: var(--n-500);
+      margin-top: 1px;
+    }
+
+    .dub-status-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 26px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid var(--n-200);
+      background: var(--n-50);
+      font-size: 12px;
+      color: var(--n-700);
+      cursor: pointer;
+    }
+    .status-chip.ok { border-color: #a7f3d0; background: var(--emerald-50); color: var(--emerald-600); }
+    .status-chip.warn { border-color: #fed7aa; background: var(--orange-50); color: #c2410c; }
+
+    .dot-ind { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+    .dub-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 18px 24px 32px;
+    }
+
+    .view-panel { display: none; }
+    .view-panel.active { display: block; }
+
+    /* =========================================================================
+       Dub 按钮、表单与控件
+       ========================================================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+      transition: all 0.15s;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--n-950);
+      color: #ffffff;
+      border-color: var(--n-950);
+    }
+    .btn-primary:hover { background: var(--n-800); box-shadow: 0 0 0 3px var(--n-200); }
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--n-800);
+      border-color: var(--n-200);
+    }
+    .btn-secondary:hover { background: var(--n-50); border-color: var(--n-300); }
+    .btn-blue { background: var(--blue-600); color: #ffffff; }
+    .btn-blue:hover { background: #1d4ed8; }
+    .btn-danger-ghost { background: transparent; color: var(--red-600); border-color: transparent; }
+    .btn-danger-ghost:hover { background: #fef2f2; }
+    .btn-sm { height: 28px; padding: 0 10px; font-size: 12px; border-radius: 7px; }
+
+    .inp, .sel, .ta {
+      width: 100%;
+      border: 1px solid var(--n-300);
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 13px;
+      color: var(--n-900);
+      background: #ffffff;
+      font-family: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .inp:focus, .sel:focus, .ta:focus {
+      outline: none;
+      border-color: var(--n-500);
+      box-shadow: 0 0 0 3px var(--n-200);
+    }
+    .ta { resize: vertical; line-height: 1.6; }
+
+    /* =========================================================================
+       Dub ChartSection + AnalyticsTabs + BarList (完全复刻源码)
+       ========================================================================= */
+    .dub-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .dub-chart-box {
+      border: 1px solid var(--n-200);
+      border-radius: 12px;
+      background: #ffffff;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .dub-tabs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-bottom: 1px solid var(--n-200);
+    }
+
+    .dub-tab-cell {
+      position: relative;
+      padding: 18px 24px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border-right: 1px solid var(--n-200);
+    }
+    .dub-tab-cell:last-child { border-right: none; }
+    .dub-tab-cell:hover { background: var(--n-50); }
+    .dub-tab-cell.active::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--n-950);
+    }
+
+    .dub-tab-chevron {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid var(--n-200);
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--n-400);
+      z-index: 2;
+    }
+
+    .dub-tab-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--n-600);
+    }
+    .dub-square {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    }
+    .dub-tab-val {
+      margin-top: 6px;
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--n-950);
+      letter-spacing: -0.02em;
+    }
+
+    .dub-chart-canvas-wrap {
+      padding: 20px 24px 16px;
+      position: relative;
+    }
+
+    /* Dub 2x2 AnalyticsCard & BarList */
+    .dub-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .dub-card {
+      border: 1px solid var(--n-200);
+      border-radius: 12px;
+      background: #ffffff;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dub-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--n-200);
+      padding: 0 16px;
+      min-height: 46px;
+    }
+
+    .dub-card-tabs {
+      display: flex;
+      gap: 18px;
+      height: 46px;
+    }
+
+    .dub-card-tab {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: none;
+      background: transparent;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--n-500);
+      cursor: pointer;
+      padding: 0 2px;
+      height: 100%;
+    }
+    .dub-card-tab:hover { color: var(--n-900); }
+    .dub-card-tab.active { color: var(--n-950); }
+    .dub-card-tab.active::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--n-950);
+    }
+
+    .dub-bar-list {
+      padding: 12px 0;
+      position: relative;
+      min-height: 290px;
+    }
+
+    /* 还原 dub/apps/web/ui/analytics/bar-list.tsx 的 LineItem 交互 */
+    .dub-bar-row {
+      position: relative;
+      display: block;
+      padding: 3px 14px;
+      border-left: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .dub-bar-row.orange:hover {
+      border-left-color: var(--orange-500);
+      background: linear-gradient(90deg, var(--orange-50), transparent);
+    }
+    .dub-bar-row.blue:hover {
+      border-left-color: var(--blue-500);
+      background: linear-gradient(90deg, var(--blue-50), transparent);
+    }
+
+    .dub-bar-inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 32px;
+      padding: 0 10px;
+      overflow: hidden;
+    }
+
+    .dub-bar-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      border-radius: 6px;
+      z-index: 0;
+      transition: width 0.35s ease-out;
+    }
+    .dub-bar-fill.orange { background: var(--orange-100); }
+    .dub-bar-fill.blue { background: var(--blue-100); }
+
+    .dub-bar-left {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .dub-bar-right {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .dub-bar-val {
+      font-size: 13px;
+      color: var(--n-700);
+      font-family: var(--font-mono);
+      transition: transform 0.25s ease;
+    }
+    .dub-bar-pct {
+      position: absolute;
+      right: 0;
+      font-size: 12px;
+      color: var(--n-500);
+      font-family: var(--font-mono);
+      opacity: 0;
+      transform: translateX(28px);
+      transition: all 0.25s ease;
+    }
+    .dub-bar-row:hover .dub-bar-val { transform: translateX(-46px); }
+    .dub-bar-row:hover .dub-bar-pct { opacity: 1; transform: translateX(0); }
+
+    /* 真实走势图 & 新闻实拍图展示 */
+    .chart-img-box {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .real-img-frame {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--n-200);
+      background: #ffffff;
+      display: block;
+    }
+    .news-row {
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--n-100);
+      align-items: start;
+    }
+    .news-row:last-child { border-bottom: none; }
+    .news-thumb {
+      width: 96px;
+      height: 68px;
+      border-radius: 7px;
+      object-fit: cover;
+      border: 1px solid var(--n-200);
+      background: var(--n-100);
+    }
+
+    /* 通用数据表格 */
+    .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .data-table th {
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--n-500);
+      background: var(--n-50);
+      border-bottom: 1px solid var(--n-200);
+    }
+    .data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--n-100);
+      color: var(--n-800);
+    }
+    .data-table tr:hover td { background: var(--n-50); }
+
+    /* 三栏编辑室 */
+    .studio-grid {
+      display: grid;
+      grid-template-columns: 310px minmax(0, 1fr) 390px;
+      gap: 16px;
+      align-items: start;
+    }
+    .phone-preview {
+      border: 1px solid var(--n-200);
+      border-radius: 14px;
+      background: #ffffff;
+      height: 600px;
+      overflow-y: auto;
+      padding: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    }
+
+    /* 画布板块（Dub 洁白极简点阵风） */
+    .canvas-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 16px;
+      height: calc(100dvh - 185px);
+      min-height: 520px;
+    }
+    .canvas-board {
+      position: relative;
+      border: 1px solid var(--n-200);
+      border-radius: 12px;
+      background-color: var(--n-50);
+      background-image: radial-gradient(var(--n-300) 1px, transparent 1px);
+      background-size: 18px 18px;
+      overflow: auto;
+    }
+    .canvas-stage { position: relative; width: 1500px; height: 820px; }
+    .canvas-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .c-node {
+      position: absolute;
+      width: 265px;
+      background: #ffffff;
+      border: 1px solid var(--n-200);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      cursor: grab;
+      user-select: none;
+    }
+    .c-node.selected { border: 1.5px solid var(--n-950); box-shadow: 0 0 0 3px var(--n-200); }
+    .c-node-head {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--n-100);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--n-900);
+    }
+    .c-node-body {
+      padding: 10px 12px;
+      font-size: 12px;
+      color: var(--n-600);
+      line-height: 1.55;
+      max-height: 180px;
+      overflow: hidden;
+      white-space: pre-wrap;
+    }
+
+    /* Toast */
+    .toast-box {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toast {
+      background: var(--n-950);
+      color: #ffffff;
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+      max-width: 400px;
+    }
+    .toast.ok { background: var(--emerald-600); }
+    .toast.err { background: var(--red-600); }
+
+    .notice-box {
+      border: 1px solid var(--n-200);
+      background: var(--n-50);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 12.5px;
+      color: var(--n-700);
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 1180px) {
+      .dub-shell { grid-template-columns: 240px minmax(0, 1fr); }
+      .dub-grid-2, .studio-grid, .canvas-layout { grid-template-columns: 1fr; }
+    }
+
+    /* Dub 风格全屏安全登录门禁 */
+    .login-gate {
+      position: fixed;
+      inset: 0;
+      background: var(--n-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 8000;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 390px;
+      background: #ffffff;
+      border: 1px solid var(--n-200);
+      border-radius: 16px;
+      padding: 28px 28px 26px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 公网安全登录门禁（未登录前不加载任何受保护业务接口） -->
+  <div class="login-gate" id="login-gate">
+    <div class="login-card">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:18px;">
+        <div class="dub-brand-mark" style="margin-bottom:0;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M4 6h16M4 12h10M4 18h16"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:16px; font-weight:600; color:var(--n-950); letter-spacing:-0.02em;">恒业 × 新月工作台</div>
+          <div style="font-size:12px; color:var(--n-500);">请登录以访问石化行情与公众号中枢</div>
+        </div>
+      </div>
+
+      <form onsubmit="handleLogin(event)" style="display:flex; flex-direction:column; gap:12px;">
+        <div>
+          <label style="display:block; font-size:12px; font-weight:500; color:var(--n-600); margin-bottom:4px;">管理员账号</label>
+          <input class="inp" id="login-user" autocomplete="username" placeholder="请输入账号" required />
+        </div>
+        <div>
+          <label style="display:block; font-size:12px; font-weight:500; color:var(--n-600); margin-bottom:4px;">登录密码</label>
+          <input class="inp" id="login-pass" type="password" autocomplete="current-password" placeholder="请输入密码" required />
+        </div>
+        <div id="login-err" style="display:none; font-size:12px; color:var(--red-600); background:#fef2f2; border:1px solid #fecaca; border-radius:7px; padding:7px 10px;"></div>
+        <button class="btn btn-primary" type="submit" style="width:100%; height:36px; margin-top:2px;">登录工作台</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="dub-shell" id="app-shell" style="display:none;">
+    <!-- 左侧 Dub 双轨侧边栏 -->
+    <aside class="dub-sidebar">
+      <div class="dub-rail-icons">
+        <div style="display:flex; flex-direction:column; align-items:center;">
+          <div class="dub-brand-mark" title="恒业 × 新月工作台">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M4 6h16M4 12h10M4 18h16"/>
+            </svg>
+          </div>
+          <div class="dub-group-list">
+            <button class="dub-group-btn active" title="实时行情与报价" onclick="switchView('view-analytics', document.getElementById('nav-analytics'))">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>
+              </svg>
+            </button>
+            <button class="dub-group-btn" title="公众号与画布工坊" onclick="switchView('view-studio', document.getElementById('nav-studio'))">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h6"/>
+              </svg>
+            </button>
+            <button class="dub-group-btn" title="WeChat 接口与配置" onclick="switchView('view-wechat-api', document.getElementById('nav-wechat-api'))">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div style="font-size:11px; color:var(--n-500); font-weight:600;">HY</div>
+      </div>
+
+      <div class="dub-rail-panel-wrap">
+        <div class="dub-rail-panel">
+          <div class="dub-panel-title">恒业 × 新月</div>
+
+          <div class="dub-nav-section">
+            <div class="dub-nav-label">实时行情与采集</div>
+            <button class="dub-nav-item active" id="nav-analytics" onclick="switchView('view-analytics', this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>
+              <span>石化实时行情总览</span>
+            </button>
+            <button class="dub-nav-item" id="nav-quotes" onclick="switchView('view-quotes', this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>微信报价与检修补录</span>
+            </button>
+          </div>
+
+          <div class="dub-nav-section">
+            <div class="dub-nav-label">内容生产与画布</div>
+            <button class="dub-nav-item" id="nav-studio" onclick="switchView('view-studio', this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+              <span>公众号与视频号编辑室</span>
+            </button>
+            <button class="dub-nav-item" id="nav-canvas" onclick="switchView('view-canvas', this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 6h4a2 2 0 0 1 2 2v7"/></svg>
+              <span>画布工作流工坊</span>
+            </button>
+          </div>
+
+          <div class="dub-nav-section">
+            <div class="dub-nav-label">开放接口与底座</div>
+            <button class="dub-nav-item" id="nav-wechat-api" onclick="switchView('view-wechat-api', this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 9l3 3-3 3M13 15h3"/><rect x="3" y="4" width="18" height="16" rx="2"/></svg>
+              <span>WeChat 接口中心</span>
+            </button>
+            <button class="dub-nav-item" id="nav-config" onclick="switchView('view-config', this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.79 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span>模型与凭据配置</span>
+            </button>
+          </div>
+
+          <div class="dub-rail-footer">
+            <div>数据源：新浪期货 / 东财资讯</div>
+            <div class="mono" id="rail-footer-counts">合约 0 · 报价 0</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px; padding-top:6px; border-top:1px solid var(--n-200);">
+              <span class="mono" id="current-user-label" style="color:var(--n-800); font-weight:500;">admin</span>
+              <button class="btn btn-secondary btn-sm" style="height:22px; font-size:11px; padding:0 8px;" onclick="handleLogout()">退出</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 右侧洁白悬浮工作面 -->
+    <div class="dub-main-wrap">
+      <div class="dub-main-surface">
+        <header class="dub-header">
+          <div>
+            <div class="dub-header-title" id="header-title">石化实时行情总览</div>
+            <div class="dub-header-sub" id="header-sub">100% 实时抓取国内石化主力合约、官方 K 线走势图与大宗商品快讯</div>
+          </div>
+          <div class="dub-status-bar" id="status-chips"></div>
+        </header>
+
+        <div class="dub-scroll">
+
+          <!-- ===============================================================
+               视图 1：Dub Analytics 石化实时行情总览（全真实抓取数据 + 条形表格 + 真实图片）
+               =============================================================== -->
+          <section id="view-analytics" class="view-panel active">
+            <div class="dub-toolbar">
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <select class="sel" id="active-symbol-select" style="width:200px;" onchange="selectChartSymbol(this.value)">
+                  <option value="L0">塑料 LLDPE (L0)</option>
+                  <option value="PP0">聚丙烯 PP (PP0)</option>
+                  <option value="V0">PVC (V0)</option>
+                  <option value="SC0">上海原油 (SC0)</option>
+                  <option value="EG0">乙二醇 (EG0)</option>
+                  <option value="EB0">苯乙烯 (EB0)</option>
+                  <option value="TA0">PTA (TA0)</option>
+                  <option value="MA0">甲醇 (MA0)</option>
+                </select>
+                <span class="mono" id="market-fetch-time" style="font-size:12px; color:var(--n-500);">同步实时数据中...</span>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-secondary" onclick="syncRealNews()">抓取东财最新商品快讯</button>
+                <button class="btn btn-primary" onclick="refreshAllMarketData()">刷新新浪实时盘面与图表</button>
+              </div>
+            </div>
+
+            <!-- Dub 3 列指标 Tab + 30日真实面积折线图 -->
+            <div class="dub-chart-box">
+              <div class="dub-tabs-grid">
+                <div class="dub-tab-cell active" onclick="selectMetricTab('close', this)">
+                  <div class="dub-tab-label">
+                    <span class="dub-square" style="background:var(--blue-500);"></span>
+                    <span id="tab-name-price">塑料 LLDPE 最新价 (元/吨)</span>
+                  </div>
+                  <div class="dub-tab-val mono" id="metric-last-price">--</div>
+                </div>
+                <div class="dub-tab-cell" onclick="selectMetricTab('volume', this)">
+                  <div class="dub-tab-chevron">›</div>
+                  <div class="dub-tab-label">
+                    <span class="dub-square" style="background:var(--violet-600);"></span>
+                    <span>10大石化合约总成交量 (手)</span>
+                  </div>
+                  <div class="dub-tab-val mono" id="metric-total-vol">--</div>
+                </div>
+                <div class="dub-tab-cell" onclick="selectMetricTab('open_interest', this)">
+                  <div class="dub-tab-chevron">›</div>
+                  <div class="dub-tab-label">
+                    <span class="dub-square" style="background:var(--teal-400);"></span>
+                    <span>10大石化合约总持仓量 (手)</span>
+                  </div>
+                  <div class="dub-tab-val mono" id="metric-total-oi">--</div>
+                </div>
+              </div>
+
+              <div class="dub-chart-canvas-wrap">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                  <span style="font-size:12.5px; color:var(--n-600); font-weight:500;" id="chart-caption">近 30 个交易日真实日线走势（来源：新浪财经）</span>
+                  <span class="mono" style="font-size:12px; color:var(--n-500);" id="chart-hover-info">移动鼠标查看每日真实 OHLC</span>
+                </div>
+                <div id="dub-area-chart" style="width:100%; height:310px; position:relative;"></div>
+              </div>
+            </div>
+
+            <!-- Dub 2x2 条形表格 + 真实抓取图片矩阵 -->
+            <div class="dub-grid-2">
+              <!-- 左上：Dub BarList 成交量/持仓量（橙色柔条，悬停数值左滑露出占比） -->
+              <div class="dub-card">
+                <div class="dub-card-head">
+                  <div class="dub-card-tabs">
+                    <button class="dub-card-tab active" onclick="switchBarLeft('volume', this)">成交量排行 (手)</button>
+                    <button class="dub-card-tab" onclick="switchBarLeft('open_interest', this)">持仓量排行 (手)</button>
+                  </div>
+                  <span class="mono" style="font-size:11.5px; color:var(--n-400);">点击行切换主图</span>
+                </div>
+                <div class="dub-bar-list" id="barlist-left"></div>
+              </div>
+
+              <!-- 右上：Dub BarList 最新价/涨跌幅（蓝色柔条） -->
+              <div class="dub-card">
+                <div class="dub-card-head">
+                  <div class="dub-card-tabs">
+                    <button class="dub-card-tab active" onclick="switchBarRight('last_price', this)">主力价格对比 (元/吨)</button>
+                    <button class="dub-card-tab" onclick="switchBarRight('change_pct', this)">日内涨跌幅 (%)</button>
+                  </div>
+                  <span class="mono" style="font-size:11.5px; color:var(--n-400);">新浪实时盘面</span>
+                </div>
+                <div class="dub-bar-list" id="barlist-right"></div>
+              </div>
+            </div>
+
+            <!-- 第二行：新浪官方真实走势图 + 东方财富真实配图快讯 -->
+            <div class="dub-grid-2">
+              <div class="dub-card">
+                <div class="dub-card-head">
+                  <div class="dub-card-tabs">
+                    <button class="dub-card-tab active" onclick="switchChartImgKind('daily', this)">官方真实日K图</button>
+                    <button class="dub-card-tab" onclick="switchChartImgKind('min', this)">官方实时分时图</button>
+                  </div>
+                  <button class="btn btn-secondary btn-sm" onclick="useChartImgInStudio()">插入此图至公众号</button>
+                </div>
+                <div class="chart-img-box">
+                  <img id="sina-real-chart-img" class="real-img-frame" alt="新浪期货官方实时走势图" />
+                  <div style="font-size:12px; color:var(--n-500); display:flex; justify-content:space-between;">
+                    <span>真实来源：image.sinajs.cn/newchart/v5/futures</span>
+                    <span class="mono" id="sina-img-sym">L0</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dub-card">
+                <div class="dub-card-head">
+                  <div style="font-size:13.5px; font-weight:600; color:var(--n-900);">财经与大宗商品真实快讯（带实拍配图）</div>
+                  <button class="btn btn-secondary btn-sm" onclick="syncRealNews()">立即同步</button>
+                </div>
+                <div id="eastmoney-news-list" style="max-height:360px; overflow-y:auto;"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===============================================================
+               视图 2：微信报价与检修补录
+               =============================================================== -->
+          <section id="view-quotes" class="view-panel">
+            <div class="dub-grid-2">
+              <div class="dub-card" style="padding:16px;">
+                <div style="font-size:14.5px; font-weight:600; margin-bottom:10px;">微信群报价采集与结构化解析</div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
+                  <input class="inp" id="wx-group" value="华东塑化现货报价1群" placeholder="来源微信群" />
+                  <input class="inp" id="wx-sender" value="宁波恒业-业务员" placeholder="报价人" />
+                </div>
+                <textarea class="ta" id="wx-raw" rows="3" placeholder="粘贴微信群报价消息（或由 Windows 微信桌面插件自动调用 /api/wechat/ingest 上报），例如：今日浙石化7042报8180涨30，神华S1003报7460跌20"></textarea>
+                <div style="display:flex; gap:8px; margin-top:10px;">
+                  <button class="btn btn-primary" onclick="ingestWechatQuote()">解析并入库</button>
+                </div>
+              </div>
+
+              <div class="dub-card" style="padding:16px;">
+                <div style="font-size:14.5px; font-weight:600; margin-bottom:10px;">下游客户报价分发任务</div>
+                <input class="inp" id="outbox-targets" placeholder="目标微信客户或群名，多个请用英文逗号分隔" style="margin-bottom:8px;" />
+                <input class="inp" id="outbox-header" value="【恒业塑化 · 今日最新牌号报价单】" style="margin-bottom:10px;" />
+                <button class="btn btn-primary" onclick="createOutboxTask()">勾选下方牌号生成分发任务</button>
+                <div id="outbox-list" style="margin-top:12px; max-height:150px; overflow-y:auto;"></div>
+              </div>
+            </div>
+
+            <div class="dub-card" style="margin-bottom:18px;">
+              <div class="dub-card-head">
+                <div style="font-size:14px; font-weight:600;">微信现货牌号台账（仅显示真实采集/录入记录）</div>
+                <button class="btn btn-secondary btn-sm" onclick="loadQuotes()">刷新</button>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th style="width:36px;"><input type="checkbox" onclick="document.querySelectorAll('.q-chk').forEach(c=>c.checked=this.checked)" /></th>
+                      <th>牌号</th><th>品类</th><th>石化厂</th><th>区域</th><th>现货价</th><th>涨跌</th><th>来源群/人</th><th>采集时间</th><th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="quotes-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="dub-grid-2">
+              <div class="dub-card" style="padding:16px;">
+                <div style="font-size:14.5px; font-weight:600; margin-bottom:10px;">装置检修与内部汇报手动补录</div>
+                <div style="display:grid; grid-template-columns:1fr 140px; gap:8px; margin-bottom:8px;">
+                  <select class="sel" id="intel-type">
+                    <option value="manual_maintenance">装置检修 / 排产动态</option>
+                    <option value="daily_dialogue">16:00-17:00 内部成交汇报</option>
+                    <option value="hot_topic">宏观与库存动态</option>
+                  </select>
+                  <input class="inp mono" type="date" id="intel-date" />
+                </div>
+                <input class="inp" id="intel-title" placeholder="动态标题（如：12月5号某石化装置检修计划）" style="margin-bottom:8px;" />
+                <textarea class="ta" id="intel-content" rows="3" placeholder="详细内容..." style="margin-bottom:10px;"></textarea>
+                <div style="display:flex; gap:8px; justify-content:space-between; align-items:center;">
+                  <button class="btn btn-primary" onclick="submitManualIntel()">保存补录</button>
+                  <div style="display:flex; gap:6px; flex:1; margin-left:12px;">
+                    <input class="inp mono" id="scrape-url" placeholder="或输入行业网站 URL 自动抓取..." />
+                    <button class="btn btn-secondary" onclick="runScrape()">抓取网页</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dub-card">
+                <div class="dub-card-head">
+                  <div style="font-size:14px; font-weight:600;">综合情报记录（真实抓取 + 手动补录）</div>
+                  <button class="btn btn-secondary btn-sm" onclick="loadIntel()">刷新</button>
+                </div>
+                <div id="intel-list" style="max-height:270px; overflow-y:auto;"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===============================================================
+               视图 3：公众号与视频号编辑室（含图片模型 AI 配图 + 草稿箱直推）
+               =============================================================== -->
+          <section id="view-studio" class="view-panel">
+            <div class="studio-grid">
+              <!-- 左栏：生成、配图模型与历史 -->
+              <div style="display:flex; flex-direction:column; gap:14px;">
+                <div class="dub-card" style="padding:14px;">
+                  <div style="font-size:13.5px; font-weight:600; margin-bottom:10px;">内容生成控制</div>
+                  <select class="sel" id="mp-mode" style="margin-bottom:8px;">
+                    <option value="mp_daily">恒业 · 公众号每日行情日报</option>
+                    <option value="mp_clone">新月 · 公众号模板复刻文案</option>
+                    <option value="video_daily">视频号 · 每日成交公正播报</option>
+                    <option value="video_whiteboard">视频号 · 白板讲课深度分析</option>
+                    <option value="video_interview">新月 · 方案与采访稿模式</option>
+                  </select>
+                  <select class="sel" id="mp-template" onchange="saveArticleEdits(false)" style="margin-bottom:8px;">
+                    <option value="hengye_daily">恒业金融日报模板 (自动带盘面与报价表)</option>
+                    <option value="xinyue_magazine">新月黑金观察模板</option>
+                    <option value="xinyue_interview">新月访谈纪要模板</option>
+                  </select>
+                  <input class="inp" id="mp-topic" placeholder="自定义标题或主题（选填）" style="margin-bottom:8px;" />
+                  <textarea class="ta" id="mp-ref-tpl" rows="2" placeholder="对标优秀公众号文章结构参考（选填）" style="margin-bottom:10px;"></textarea>
+                  <div style="display:flex; flex-direction:column; gap:6px;">
+                    <button class="btn btn-secondary" onclick="insertLiveDataSkeleton()">汇入今日真实行情与检修骨架</button>
+                    <button class="btn btn-primary" onclick="generateMpArticle()">调用 Dify / 大模型 AI 撰写</button>
+                  </div>
+                </div>
+
+                <!-- 公众号图片模型生图与选图区 -->
+                <div class="dub-card" style="padding:14px;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <span style="font-size:13.5px; font-weight:600;">公众号 AI 配图工坊</span>
+                    <button class="btn btn-secondary btn-sm" onclick="switchView('view-config', document.getElementById('nav-config'))">配图 Key</button>
+                  </div>
+                  <textarea class="ta" id="img-gen-prompt" rows="2" placeholder="输入配图描述词，如：现代化大型石化炼化基地黄昏航拍，工业摄影质感，4K" style="margin-bottom:8px;"></textarea>
+                  <button class="btn btn-primary btn-sm" style="width:100%; margin-bottom:10px;" onclick="generateAiImage()">调用图片模型生成配图</button>
+                  <div style="font-size:12px; color:var(--n-500); margin-bottom:6px;">已生成 / 真实图库（点击设为封面或插入正文）：</div>
+                  <div id="image-gallery" style="display:grid; grid-template-columns:1fr 1fr; gap:8px; max-height:210px; overflow-y:auto;"></div>
+                </div>
+
+                <div class="dub-card">
+                  <div class="dub-card-head">
+                    <span style="font-size:13px; font-weight:600;">历史稿件</span>
+                    <button class="btn btn-secondary btn-sm" onclick="loadArticles()">刷新</button>
+                  </div>
+                  <div id="articles-history" style="max-height:200px; overflow-y:auto;"></div>
+                </div>
+              </div>
+
+              <!-- 中栏：人工精修区 -->
+              <div class="dub-card" style="padding:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                  <span style="font-size:14px; font-weight:600;">人工修改与图文排版</span>
+                  <button class="btn btn-primary btn-sm" onclick="saveArticleEdits(true)">保存并重绘预览</button>
+                </div>
+                <input class="inp" id="edit-art-title" placeholder="文章标题..." style="font-weight:600; margin-bottom:8px;" />
+                <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+                  <input class="inp mono" id="edit-art-cover" style="flex:1;" placeholder="封面图 URL（可从左侧选图或填图片模型生成结果）" />
+                  <button class="btn btn-secondary btn-sm" onclick="uploadThumbToWechat()">上传微信封面素材</button>
+                </div>
+                <textarea class="ta" id="edit-art-body" rows="24" placeholder="在此编写或编辑 Markdown 正文（支持 ![图片说明](图片URL) 插入图文）..."></textarea>
+              </div>
+
+              <!-- 右栏：微信公众号 1:1 真实渲染与直推 -->
+              <div class="dub-card" style="padding:14px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                  <span style="font-size:13.5px; font-weight:600;">公众号 1:1 实时预览</span>
+                  <div style="display:flex; gap:6px;">
+                    <button class="btn btn-secondary btn-sm" onclick="copyWechatRichHtml()">复制富文本</button>
+                    <button class="btn btn-primary btn-sm" onclick="pushMpDraft()">推入草稿箱</button>
+                  </div>
+                </div>
+                <div id="mp-push-status" class="notice-box" style="display:none;"></div>
+                <div class="phone-preview" id="mp-preview-container">
+                  <div style="padding:48px 16px; text-align:center; color:var(--n-400); font-size:13px;">
+                    在左侧汇入真实数据或生成稿件后，此处即时渲染微信公众号内联样式
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===============================================================
+               视图 4：画布工作流工坊（Dub 洁白极简点阵风）
+               =============================================================== -->
+          <section id="view-canvas" class="view-panel">
+            <div class="dub-toolbar">
+              <div style="display:flex; gap:8px; align-items:center;">
+                <select class="sel" id="canvas-proj-select" style="width:240px;" onchange="selectCanvasProject(this.value)"></select>
+                <button class="btn btn-secondary btn-sm" onclick="createCanvasProject()">+ 新建画布</button>
+                <button class="btn btn-danger-ghost btn-sm" onclick="deleteCanvasProject()">删除当前画布</button>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-secondary btn-sm" onclick="addCanvasNode('drama_script')">+ 文案/剧本节点</button>
+                <button class="btn btn-secondary btn-sm" onclick="addCanvasNode('image_gen')">+ AI 生图节点</button>
+                <button class="btn btn-primary btn-sm" onclick="saveCanvasProject()">保存画布</button>
+              </div>
+            </div>
+
+            <div class="canvas-layout">
+              <div class="canvas-board">
+                <div class="canvas-stage" id="canvas-stage">
+                  <svg class="canvas-svg" id="canvas-svg"></svg>
+                  <div id="canvas-nodes-layer"></div>
+                </div>
+              </div>
+
+              <div class="dub-card" style="padding:14px; overflow-y:auto;">
+                <div style="font-size:13.5px; font-weight:600; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--n-200);">节点属性与真实执行</div>
+                <div id="node-inspector-empty" style="color:var(--n-500); font-size:12.5px;">点击或新建画布节点开始编排。</div>
+                <div id="node-inspector" style="display:none; flex-direction:column; gap:10px;">
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span class="mono" id="insp-meta" style="font-size:11.5px; color:var(--n-500);"></span>
+                    <button class="btn btn-danger-ghost btn-sm" onclick="deleteSelectedNode()">删除节点</button>
+                  </div>
+                  <input class="inp" id="insp-title" oninput="updateSelectedNodeField('title', this.value)" placeholder="节点标题" />
+                  <textarea class="ta" id="insp-content" rows="7" oninput="updateSelectedNodeField('content', this.value)" placeholder="节点文本或图片描述 Prompt..."></textarea>
+                  <div id="insp-img-preview" style="display:none;">
+                    <img id="insp-img-el" style="width:100%; border-radius:8px; border:1px solid var(--n-200); margin-bottom:6px;" />
+                    <button class="btn btn-secondary btn-sm" style="width:100%;" onclick="sendNodeImageToStudio()">发送此图到公众号编辑器</button>
+                  </div>
+                  <div style="display:flex; gap:6px;">
+                    <select class="sel" id="insp-connect-target"></select>
+                    <button class="btn btn-secondary btn-sm" onclick="connectSelectedToTarget()">连线</button>
+                  </div>
+                  <button class="btn btn-primary" onclick="runSelectedCanvasNode()">执行当前节点 (调用真实 API)</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===============================================================
+               视图 5：WeChat 接口中心（直接输出在网站内的接口文档 + 在线调试 + 日志 + 插件代码）
+               =============================================================== -->
+          <section id="view-wechat-api" class="view-panel">
+            <div class="dub-grid-2">
+              <div class="dub-card">
+                <div class="dub-card-head">
+                  <div style="font-size:14px; font-weight:600;">WeChat 开放 HTTP 接口清单（本机直出）</div>
+                  <button class="btn btn-secondary btn-sm" onclick="loadWechatCenter()">刷新接口</button>
+                </div>
+                <div id="wx-endpoints-list" style="max-height:460px; overflow-y:auto;"></div>
+              </div>
+
+              <div class="dub-card" style="padding:16px;">
+                <div style="font-size:14px; font-weight:600; margin-bottom:10px;">在线真实接口调试器</div>
+                <select class="sel mono" id="wx-test-select" style="margin-bottom:8px;" onchange="onSelectWxEndpoint(this.value)"></select>
+                <div style="display:flex; gap:8px; margin-bottom:8px;">
+                  <input class="inp mono" id="wx-test-method" style="width:90px;" readonly />
+                  <input class="inp mono" id="wx-test-url" readonly />
+                  <button class="btn btn-primary" onclick="sendWxTestRequest()">发送真实请求</button>
+                </div>
+                <textarea class="ta mono" id="wx-test-body" rows="6" style="font-size:12px; margin-bottom:8px;" placeholder="请求 JSON Body..."></textarea>
+                <div style="font-size:12px; color:var(--n-500); margin-bottom:4px;">真实响应输出：</div>
+                <pre id="wx-test-resp" class="mono" style="background:var(--n-50); border:1px solid var(--n-200); border-radius:8px; padding:10px; font-size:11.5px; max-height:170px; overflow:auto;">等待发送请求...</pre>
+              </div>
+            </div>
+
+            <div class="dub-grid-2">
+              <div class="dub-card">
+                <div class="dub-card-head">
+                  <div style="font-size:14px; font-weight:600;">实时 WeChat API 调用日志（SQLite 持久化）</div>
+                  <div style="display:flex; gap:6px;">
+                    <button class="btn btn-secondary btn-sm" onclick="loadWechatLogs()">刷新</button>
+                    <button class="btn btn-danger-ghost btn-sm" onclick="clearWechatLogs()">清空</button>
+                  </div>
+                </div>
+                <div style="max-height:300px; overflow-y:auto;">
+                  <table class="data-table">
+                    <thead><tr><th>时间</th><th>方法与路径</th><th>状态</th><th>耗时</th><th>摘要</th></tr></thead>
+                    <tbody id="wx-logs-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="dub-card">
+                <div class="dub-card-head">
+                  <div style="font-size:14px; font-weight:600;">PC 微信 Windows 抓取/分发客户端源码</div>
+                  <div style="display:flex; gap:6px;">
+                    <button class="btn btn-secondary btn-sm" onclick="copyPluginSource()">复制源码</button>
+                    <a class="btn btn-primary btn-sm" href="/api/wechat/plugin-script" download="hengye_wx_plugin.py">下载 .py</a>
+                  </div>
+                </div>
+                <pre id="wx-plugin-code" class="mono" style="padding:12px; font-size:11.5px; color:var(--n-800); max-height:300px; overflow:auto; background:var(--n-50);"></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===============================================================
+               视图 6：模型、图片模型与 Dify 凭据配置
+               =============================================================== -->
+          <section id="view-config" class="view-panel">
+            <div class="dub-card" style="padding:16px; margin-bottom:18px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                <div>
+                  <div style="font-size:14.5px; font-weight:600;">Dify 工作流标准 DSL (.yml) 一键导出</div>
+                  <div style="font-size:12px; color:var(--n-500);">在你已登录的 Dify 工作室点击「导入 DSL 文件」，发布后把 API Key 填入下方保存</div>
+                </div>
+                <button class="btn btn-primary" onclick="saveConfig()">保存全部系统配置至 SQLite</button>
+              </div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <a class="btn btn-secondary btn-sm mono" href="/api/dify/dsl/price" download="hengye_dify_price.yml">01 报价清洗.yml</a>
+                <a class="btn btn-secondary btn-sm mono" href="/api/dify/dsl/daily" download="hengye_dify_daily.yml">02 行情日报.yml</a>
+                <a class="btn btn-secondary btn-sm mono" href="/api/dify/dsl/video" download="hengye_dify_video.yml">03 视频号口播.yml</a>
+                <a class="btn btn-secondary btn-sm mono" href="/api/dify/dsl/mp_clone" download="hengye_dify_mp_clone.yml">04 公众号复刻.yml</a>
+                <a class="btn btn-secondary btn-sm mono" href="/api/dify/dsl/drama" download="hengye_dify_drama.yml">05 画布节点.yml</a>
+              </div>
+            </div>
+
+            <div class="dub-grid-2">
+              <!-- 图片生成模型 API Key 专属配置位 -->
+              <div class="dub-card" style="padding:16px;">
+                <div style="font-size:14.5px; font-weight:600; margin-bottom:6px;">图片生成模型 API 配置（公众号 AI 配图 / 画布生图）</div>
+                <div style="font-size:12px; color:var(--n-500); margin-bottom:10px;">兼容 OpenAI /images/generations 协议，支持国内直连生图平台</div>
+                <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
+                  <button class="btn btn-secondary btn-sm" onclick="presetImg('https://api.siliconflow.cn/v1/images/generations','Kwai-Kolors/Kolors')">硅基流动 Kolors</button>
+                  <button class="btn btn-secondary btn-sm" onclick="presetImg('https://ark.cn-beijing.volces.com/api/v3/images/generations','doubao-seedream-3-0-t2i-250415')">火山方舟 即梦 Seedream</button>
+                  <button class="btn btn-secondary btn-sm" onclick="presetImg('https://open.bigmodel.cn/api/paas/v4/images/generations','cogview-3-plus')">智谱 CogView</button>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                  <input class="inp mono" id="cfg-image_api_url" placeholder="Image API URL" />
+                  <input class="inp mono" type="password" id="cfg-image_api_key" placeholder="Image API Key (sk-...)" />
+                  <input class="inp mono" id="cfg-image_model" placeholder="模型名称" />
+                </div>
+              </div>
+
+              <!-- 微信公众号开发者凭据 -->
+              <div class="dub-card" style="padding:16px;">
+                <div style="font-size:14.5px; font-weight:600; margin-bottom:6px;">微信公众号官方接口凭据</div>
+                <div style="font-size:12px; color:var(--n-500); margin-bottom:10px;">用于直推草稿箱与上传封面图永久素材（需在微信公众平台配置 IP 白名单）</div>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                  <input class="inp mono" id="cfg-mp_appid" placeholder="公众号 AppID (wx...)" />
+                  <input class="inp mono" type="password" id="cfg-mp_appsecret" placeholder="公众号 AppSecret" />
+                  <input class="inp" id="cfg-mp_author" placeholder="默认作者署名" />
+                  <input class="inp mono" id="cfg-mp_thumb_media_id" placeholder="封面永久素材 thumb_media_id（上传封面后自动回填）" />
+                </div>
+              </div>
+
+              <!-- Dify 5 工作流 Key -->
+              <div class="dub-card" style="padding:16px;">
+                <div style="font-size:14.5px; font-weight:600; margin-bottom:10px;">Dify 无头后端 API 配置</div>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                  <select class="sel" id="cfg-engine_mode">
+                    <option value="dify">优先调用 Dify Workflow API</option>
+                    <option value="direct_llm">直接调用国内文本大模型</option>
+                  </select>
+                  <input class="inp mono" id="cfg-dify_base_url" placeholder="Dify Base URL (如 http://127.0.0.1/v1)" />
+                  <input class="inp mono" type="password" id="cfg-dify_key_price" placeholder="工作流 1 Key：微信报价清洗 (dify_key_price)" />
+                  <input class="inp mono" type="password" id="cfg-dify_key_daily" placeholder="工作流 2 Key：每日行情日报 (dify_key_daily)" />
+                  <input class="inp mono" type="password" id="cfg-dify_key_video" placeholder="工作流 3 Key：视频号口播与专访 (dify_key_video)" />
+                  <input class="inp mono" type="password" id="cfg-dify_key_mp_clone" placeholder="工作流 4 Key：公众号模板复刻 (dify_key_mp_clone)" />
+                  <input class="inp mono" type="password" id="cfg-dify_key_drama" placeholder="工作流 5 Key：画布节点 (dify_key_drama)" />
+                </div>
+              </div>
+
+              <!-- 国内文本大模型 -->
+              <div class="dub-card" style="padding:16px;">
+                <div style="font-size:14.5px; font-weight:600; margin-bottom:6px;">国内文本大模型直连（备选通道）</div>
+                <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
+                  <button class="btn btn-secondary btn-sm" onclick="presetLLM('https://api.deepseek.com/v1','deepseek-chat')">DeepSeek</button>
+                  <button class="btn btn-secondary btn-sm" onclick="presetLLM('https://ark.cn-beijing.volces.com/api/v3','doubao-pro-32k')">火山方舟 豆包</button>
+                  <button class="btn btn-secondary btn-sm" onclick="presetLLM('https://dashscope.aliyuncs.com/compatible-mode/v1','qwen-plus')">阿里百炼 千问</button>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                  <input class="inp mono" id="cfg-llm_base_url" placeholder="LLM Base URL" />
+                  <input class="inp mono" type="password" id="cfg-llm_api_key" placeholder="LLM API Key (sk-...)" />
+                  <input class="inp mono" id="cfg-llm_model" placeholder="模型名称" />
+                </div>
+              </div>
+
+              <!-- 账户密码与 PC 微信插件安全 Token 管理 -->
+              <div class="dub-card" style="padding:16px;">
+                <div style="font-size:14.5px; font-weight:600; margin-bottom:6px;">账号安全与 PC 微信插件 Token</div>
+                <div style="font-size:12px; color:var(--n-500); margin-bottom:10px;">上线公网后请立即修改默认登录密码；PC 微信插件必须携带此 Token 调用接口</div>
+                <div style="display:flex; gap:6px; align-items:center; margin-bottom:12px;">
+                  <input class="inp mono" id="cfg-wx_plugin_token" readonly style="background:var(--n-50);" />
+                  <button class="btn btn-secondary btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('cfg-wx_plugin_token').value); showToast('已复制 X-WeChat-Token', 'ok')">复制</button>
+                  <button class="btn btn-secondary btn-sm" onclick="rotateWxToken()">重置</button>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr auto; gap:6px; align-items:center;">
+                  <input class="inp" type="password" id="sec-old-pw" placeholder="原密码" />
+                  <input class="inp" type="password" id="sec-new-pw" placeholder="新密码（至少6位）" />
+                  <button class="btn btn-primary btn-sm" onclick="changeAdminPassword()">修改密码</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-box" id="toast-box"></div>
+
+  <script>
+    let marketContracts = [];
+    let currentSymbol = "L0";
+    let currentKlineSeries = [];
+    let currentMetricTab = "close";
+    let barLeftField = "volume";
+    let barRightField = "last_price";
+    let chartImgKind = "daily";
+
+    let currentArticle = { id: 0, title: "", raw_markdown: "", styled_html: "", template_id: "hengye_daily", cover_image_url: "" };
+    let canvasProjects = [];
+    let canvasProject = { id: 0, name: "", nodes: [], edges: [] };
+    let selectedNodeId = null;
+    let wxEndpointsCache = [];
+
+    const VIEW_META = {
+      "view-analytics": ["石化实时行情总览", "100% 实时抓取新浪石化主力盘面、30日走势图与东方财富大宗快讯"],
+      "view-quotes": ["微信报价与检修补录", "PC 微信报价解析、下游分发队列与装置检修手动补录"],
+      "view-studio": ["公众号与视频号编辑室", "真实数据汇入 / AI 撰写 / 图片模型配图 / 微信公众号草稿箱直推"],
+      "view-canvas": ["画布工作流工坊", "支持文本节点与图片生成节点编排并直接输出至公众号"],
+      "view-wechat-api": ["WeChat 接口中心", "实时输出所有 WeChat HTTP 接口、在线调试器、调用日志与桌面插件源码"],
+      "view-config": ["模型与凭据配置", "配置图片生成模型 API Key、Dify DSL 与密钥、国内大模型及微信公众号凭据"]
+    };
+
+    function showToast(msg, type = "info") {
+      const box = document.getElementById("toast-box");
+      const el = document.createElement("div");
+      el.className = "toast " + (type === "ok" ? "ok" : type === "err" ? "err" : "");
+      el.textContent = msg;
+      box.appendChild(el);
+      setTimeout(() => el.remove(), 3800);
+    }
+
+    function esc(s) {
+      return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    async function apiJson(url, opts = {}) {
+      const r = await fetch(url, { headers: { "Content-Type": "application/json", ...(opts.headers || {}) }, ...opts });
+      if (r.status === 401 && !url.startsWith("/api/auth/")) {
+        showLoginGate();
+        throw new Error("登录状态已过期，请重新登录");
+      }
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+      return data;
+    }
+
+    function showLoginGate() {
+      document.getElementById("login-gate").style.display = "flex";
+      document.getElementById("app-shell").style.display = "none";
+    }
+
+    function showAppShell(username) {
+      document.getElementById("login-gate").style.display = "none";
+      document.getElementById("app-shell").style.display = "grid";
+      document.getElementById("current-user-label").textContent = username || "admin";
+    }
+
+    async function handleLogin(ev) {
+      ev.preventDefault();
+      const username = document.getElementById("login-user").value.trim();
+      const password = document.getElementById("login-pass").value;
+      const errBox = document.getElementById("login-err");
+      errBox.style.display = "none";
+      try {
+        const res = await apiJson("/api/auth/login", {
+          method: "POST",
+          body: JSON.stringify({ username, password })
+        });
+        document.getElementById("login-pass").value = "";
+        showAppShell(res.username);
+        bootWorkspace();
+      } catch (e) {
+        errBox.textContent = e.message;
+        errBox.style.display = "block";
+      }
+    }
+
+    async function handleLogout() {
+      try { await apiJson("/api/auth/logout", { method: "POST" }); } catch (e) {}
+      showLoginGate();
+    }
+
+    function switchView(viewId, navBtn) {
+      document.querySelectorAll(".view-panel").forEach(v => v.classList.remove("active"));
+      document.getElementById(viewId).classList.add("active");
+      const meta = VIEW_META[viewId] || ["工作台", ""];
+      document.getElementById("header-title").textContent = meta[0];
+      document.getElementById("header-sub").textContent = meta[1];
+
+      document.querySelectorAll(".dub-nav-item").forEach(b => b.classList.remove("active"));
+      if (navBtn) navBtn.classList.add("active");
+
+      const grpBtns = document.querySelectorAll(".dub-group-btn");
+      grpBtns.forEach(g => g.classList.remove("active"));
+      if (viewId === "view-analytics" || viewId === "view-quotes") grpBtns[0]?.classList.add("active");
+      else if (viewId === "view-studio" || viewId === "view-canvas") grpBtns[1]?.classList.add("active");
+      else grpBtns[2]?.classList.add("active");
+    }
+
+    /* =========================================================================
+       顶部连接状态
+       ========================================================================= */
+    async function refreshStatus() {
+      try {
+        const st = await apiJson("/api/status");
+        const c = st.connections;
+        document.getElementById("rail-footer-counts").textContent = `合约 ${st.counts.market_snapshots} · 报价 ${st.counts.price_quotes}`;
+        const chips = [
+          `<span class="status-chip ok"><span class="dot-ind"></span>实时行情 (${st.counts.market_snapshots})</span>`,
+          `<span class="status-chip ${c.image_model ? "ok" : "warn"}" onclick="switchView('view-config', document.getElementById('nav-config'))"><span class="dot-ind"></span>${c.image_model ? "图片模型已配" : "图片模型待配"}</span>`,
+          `<span class="status-chip ${c.dify_engine || c.direct_llm ? "ok" : "warn"}" onclick="switchView('view-config', document.getElementById('nav-config'))"><span class="dot-ind"></span>${c.dify_engine ? "Dify 已配" : (c.direct_llm ? "大模型已配" : "AI Key 待配")}</span>`,
+          `<span class="status-chip ${c.wechat_mp_api ? "ok" : "warn"}" onclick="switchView('view-config', document.getElementById('nav-config'))"><span class="dot-ind"></span>${c.wechat_mp_api ? "公众号已配" : "公众号待配"}</span>`
+        ];
+        document.getElementById("status-chips").innerHTML = chips.join("");
+      } catch (e) {}
+    }
+
+    /* =========================================================================
+       视图 1：Dub Analytics 实时石化行情 + BarList 条形表格 + 真实图片
+       ========================================================================= */
+    async function refreshAllMarketData() {
+      showToast("正在抓取新浪实时期货与东财商品快讯...");
+      await Promise.all([loadLiveMarket(true), loadKline(currentSymbol), syncRealNews(false)]);
+      updateChartImg();
+      await refreshStatus();
+      showToast("实时行情与新闻图片已刷新", "ok");
+    }
+
+    async function loadLiveMarket(forceRefresh = false) {
+      try {
+        const data = await apiJson("/api/market/live" + (forceRefresh ? "?refresh=1" : ""));
+        marketContracts = data.contracts || [];
+        if (marketContracts.length) {
+          document.getElementById("market-fetch-time").textContent = `真实抓取时间：${marketContracts[0].fetched_at} (${data.source})`;
+          const totalVol = marketContracts.reduce((s, x) => s + Number(x.volume || 0), 0);
+          const totalOi = marketContracts.reduce((s, x) => s + Number(x.open_interest || 0), 0);
+          document.getElementById("metric-total-vol").textContent = Math.round(totalVol).toLocaleString();
+          document.getElementById("metric-total-oi").textContent = Math.round(totalOi).toLocaleString();
+          updateSelectedContractMetric();
+          renderBarLists();
+        }
+      } catch (e) {
+        showToast("拉取实时石化盘面失败：" + e.message, "err");
+      }
+    }
+
+    function updateSelectedContractMetric() {
+      const item = marketContracts.find(c => c.symbol === currentSymbol) || marketContracts[0];
+      if (!item) return;
+      document.getElementById("tab-name-price").textContent = `${item.name} (${item.symbol}) 最新价`;
+      document.getElementById("metric-last-price").textContent = `${item.last_price} (${item.change_pct >= 0 ? "+" : ""}${item.change_pct}%)`;
+    }
+
+    function selectChartSymbol(sym) {
+      currentSymbol = sym;
+      document.getElementById("active-symbol-select").value = sym;
+      updateSelectedContractMetric();
+      loadKline(sym);
+      updateChartImg();
+    }
+
+    function selectMetricTab(field, el) {
+      currentMetricTab = field;
+      document.querySelectorAll(".dub-tab-cell").forEach(c => c.classList.remove("active"));
+      el.classList.add("active");
+      renderAreaChart();
+    }
+
+    async function loadKline(sym) {
+      try {
+        const data = await apiJson(`/api/market/kline/${sym}`);
+        currentKlineSeries = data.series || [];
+        renderAreaChart();
+      } catch (e) {
+        document.getElementById("dub-area-chart").innerHTML = `<div style="padding:90px 0; text-align:center; color:var(--n-400);">K 线抓取失败：${esc(e.message)}</div>`;
+      }
+    }
+
+    function renderAreaChart() {
+      const box = document.getElementById("dub-area-chart");
+      if (!currentKlineSeries.length) {
+        box.innerHTML = `<div style="padding:90px 0; text-align:center; color:var(--n-400);">暂无历史日线数据</div>`;
+        return;
+      }
+      const W = box.clientWidth || 960;
+      const H = 290;
+      const padL = 56, padR = 38, padT = 16, padB = 30;
+      const vals = currentKlineSeries.map(d => Number(d[currentMetricTab] || 0));
+      let minV = Math.min(...vals);
+      let maxV = Math.max(...vals);
+      if (minV === maxV) { minV *= 0.98; maxV *= 1.02; }
+      const range = maxV - minV;
+      minV = minV - range * 0.08;
+      maxV = maxV + range * 0.08;
+
+      const xAt = (i) => padL + (i / Math.max(1, vals.length - 1)) * (W - padL - padR);
+      const yAt = (v) => padT + (1 - (v - minV) / (maxV - minV)) * (H - padT - padB);
+
+      const pts = vals.map((v, i) => [xAt(i), yAt(v)]);
+      const linePath = pts.map((p, i) => (i === 0 ? `M ${p[0]} ${p[1]}` : `L ${p[0]} ${p[1]}`)).join(" ");
+      const areaPath = `${linePath} L ${pts[pts.length - 1][0]} ${H - padB} L ${pts[0][0]} ${H - padB} Z`;
+
+      let gridSvg = "";
+      for (let k = 0; k <= 4; k++) {
+        const y = padT + (k / 4) * (H - padT - padB);
+        const val = maxV - (k / 4) * (maxV - minV);
+        const label = val >= 10000 ? Math.round(val).toLocaleString() : val.toFixed(1);
+        gridSvg += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#e5e5e5" stroke-dasharray="3 3" />`;
+        gridSvg += `<text x="${padL - 8}" y="${y + 4}" text-anchor="end" font-size="11" fill="#737373" font-family="JetBrains Mono, monospace">${label}</text>`;
+      }
+
+      const xLabels = [0, Math.floor(vals.length / 2), vals.length - 1].map(idx => {
+        const d = currentKlineSeries[idx]?.date || "";
+        return `<text x="${xAt(idx)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#737373" font-family="JetBrains Mono, monospace">${d}</text>`;
+      }).join("");
+
+      const colorMap = { close: "#3b82f6", volume: "#7c3aed", open_interest: "#14b8a6" };
+      const strokeC = colorMap[currentMetricTab] || "#3b82f6";
+
+      box.innerHTML = `
+        <svg id="area-svg" width="100%" height="${H}" viewBox="0 0 ${W} ${H}">
+          <defs>
+            <linearGradient id="dubAreaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="${strokeC}" stop-opacity="0.24"/>
+              <stop offset="100%" stop-color="${strokeC}" stop-opacity="0.01"/>
+            </linearGradient>
+          </defs>
+          ${gridSvg}
+          ${xLabels}
+          <path d="${areaPath}" fill="url(#dubAreaGrad)" />
+          <path d="${linePath}" fill="none" stroke="${strokeC}" stroke-width="2" />
+          <line id="hover-vline" x1="0" y1="${padT}" x2="0" y2="${H - padB}" stroke="#a3a3a3" stroke-dasharray="2 2" style="display:none;" />
+          <circle id="hover-dot" cx="0" cy="0" r="4.5" fill="#ffffff" stroke="${strokeC}" stroke-width="2.5" style="display:none;" />
+        </svg>
+      `;
+
+      const svgEl = document.getElementById("area-svg");
+      svgEl.addEventListener("mousemove", (e) => {
+        const rect = svgEl.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const ratio = Math.min(1, Math.max(0, (mx - padL) / (W - padL - padR)));
+        const idx = Math.round(ratio * (currentKlineSeries.length - 1));
+        const d = currentKlineSeries[idx];
+        if (!d) return;
+        const px = xAt(idx), py = yAt(Number(d[currentMetricTab] || 0));
+        const vl = document.getElementById("hover-vline");
+        const dt = document.getElementById("hover-dot");
+        vl.setAttribute("x1", px); vl.setAttribute("x2", px); vl.style.display = "block";
+        dt.setAttribute("cx", px); dt.setAttribute("cy", py); dt.style.display = "block";
+        document.getElementById("chart-hover-info").textContent =
+          `${d.date} | 开 ${d.open} 高 ${d.high} 低 ${d.low} 收 ${d.close} | 成交 ${Math.round(d.volume).toLocaleString()}手`;
+      });
+      svgEl.addEventListener("mouseleave", () => {
+        document.getElementById("hover-vline").style.display = "none";
+        document.getElementById("hover-dot").style.display = "none";
+      });
+    }
+
+    function switchBarLeft(field, btn) {
+      barLeftField = field;
+      btn.parentElement.querySelectorAll(".dub-card-tab").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderBarLists();
+    }
+
+    function switchBarRight(field, btn) {
+      barRightField = field;
+      btn.parentElement.querySelectorAll(".dub-card-tab").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderBarLists();
+    }
+
+    function renderBarLists() {
+      if (!marketContracts.length) return;
+      renderSingleBarList("barlist-left", barLeftField, "orange");
+      renderSingleBarList("barlist-right", barRightField, "blue");
+    }
+
+    function renderSingleBarList(containerId, field, tone) {
+      const sorted = [...marketContracts].sort((a, b) => Math.abs(b[field]) - Math.abs(a[field])).slice(0, 8);
+      const total = sorted.reduce((s, x) => s + Math.abs(Number(x[field] || 0)), 0) || 1;
+      const maxV = Math.max(...sorted.map(x => Math.abs(Number(x[field] || 0)))) || 1;
+
+      document.getElementById(containerId).innerHTML = sorted.map(item => {
+        const raw = Number(item[field] || 0);
+        const wPct = Math.max(4, Math.round((Math.abs(raw) / maxV) * 100));
+        const sharePct = ((Math.abs(raw) / total) * 100).toFixed(1);
+        const valText = field === "change_pct" ? `${raw >= 0 ? "+" : ""}${raw}%` : Math.round(raw).toLocaleString();
+        return `
+          <div class="dub-bar-row ${tone}" onclick="selectChartSymbol('${item.symbol}')">
+            <div class="dub-bar-inner">
+              <div class="dub-bar-fill ${tone}" style="width:${wPct}%;"></div>
+              <div class="dub-bar-left">
+                <span class="mono" style="font-size:11.5px; color:var(--n-500); width:36px;">${item.symbol}</span>
+                <span style="font-size:13px; font-weight:500; color:var(--n-900);">${esc(item.name)}</span>
+                <span style="font-size:11.5px; color:var(--n-500);">${esc(item.exchange)}</span>
+              </div>
+              <div class="dub-bar-right">
+                <span class="dub-bar-val">${valText}</span>
+                <span class="dub-bar-pct">${sharePct}%</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function switchChartImgKind(kind, btn) {
+      chartImgKind = kind;
+      btn.parentElement.querySelectorAll(".dub-card-tab").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      updateChartImg();
+    }
+
+    function updateChartImg() {
+      const url = `/api/market/chart-img/${chartImgKind}/${currentSymbol}?t=${Date.now()}`;
+      document.getElementById("sina-real-chart-img").src = url;
+      document.getElementById("sina-img-sym").textContent = `${currentSymbol} (${chartImgKind})`;
+    }
+
+    function useChartImgInStudio() {
+      const cleanUrl = `/api/market/chart-img/${chartImgKind}/${currentSymbol}`;
+      insertImageToArticle(cleanUrl, `${currentSymbol} 实时官方走势图`);
+      switchView("view-studio", document.getElementById("nav-studio"));
+    }
+
+    async function syncRealNews(toast = true) {
+      try {
+        const res = await apiJson("/api/market/sync-news", { method: "POST" });
+        renderEastmoneyNews(res.news || []);
+        await loadIntel();
+        if (toast) showToast(`已同步 ${res.fetched_count} 条东方财富实时资讯`, "ok");
+      } catch (e) {
+        if (toast) showToast("同步东方财富快讯失败：" + e.message, "err");
+      }
+    }
+
+    function renderEastmoneyNews(news) {
+      const box = document.getElementById("eastmoney-news-list");
+      if (!news.length) {
+        box.innerHTML = `<div style="padding:36px; text-align:center; color:var(--n-400);">点击右上角“立即同步”抓取最新带图商品快讯</div>`;
+        return;
+      }
+      box.innerHTML = news.map(n => {
+        const proxied = n.image_url ? `/api/proxy-image?url=${encodeURIComponent(n.image_url)}` : "";
+        return `
+          <div class="news-row">
+            ${proxied
+              ? `<img class="news-thumb" src="${proxied}" alt="新闻配图" />`
+              : `<div class="news-thumb" style="display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--n-400);">无配图</div>`}
+            <div style="min-width:0;">
+              <div style="font-size:13px; font-weight:600; color:var(--n-900); margin-bottom:4px;">${esc(n.title)}</div>
+              <div style="font-size:12px; color:var(--n-500); margin-bottom:6px;">${esc((n.content || "").slice(0, 75))}...</div>
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                <span class="mono" style="font-size:11px; color:var(--n-400);">${esc(n.created_at)}</span>
+                <div style="display:flex; gap:6px;">
+                  ${proxied ? `<button class="btn btn-secondary btn-sm" onclick="insertImageToArticle('${proxied}', '${esc(n.title)}'); switchView('view-studio', document.getElementById('nav-studio'));">采用配图</button>` : ""}
+                  <a class="btn btn-secondary btn-sm" href="${esc(n.source_url)}" target="_blank">原文</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    /* =========================================================================
+       视图 2：微信报价与检修补录
+       ========================================================================= */
+    async function loadQuotes() {
+      try {
+        const data = await apiJson("/api/quotes");
+        document.getElementById("quotes-tbody").innerHTML = data.quotes.length
+          ? data.quotes.map(q => {
+              const c = Number(q.change_val || 0);
+              const chgHtml = c > 0 ? `<span style="color:var(--red-600);font-weight:600;">+${c}</span>` : (c < 0 ? `<span style="color:var(--emerald-600);font-weight:600;">${c}</span>` : "0");
+              return `
+                <tr>
+                  <td><input type="checkbox" class="q-chk" value="${q.id}" /></td>
+                  <td class="mono" style="font-weight:600;">${esc(q.grade_code)}</td>
+                  <td>${esc(q.category)}</td>
+                  <td>${esc(q.producer)}</td>
+                  <td>${esc(q.region)}</td>
+                  <td class="mono" style="font-weight:600;">¥${Number(q.price)}</td>
+                  <td class="mono">${chgHtml}</td>
+                  <td>${esc(q.source_group)} / ${esc(q.sender)}</td>
+                  <td class="mono" style="font-size:11.5px; color:var(--n-500);">${esc(q.created_at)}</td>
+                  <td><button class="btn btn-danger-ghost btn-sm" onclick="deleteQuote(${q.id})">删除</button></td>
+                </tr>`;
+            }).join("")
+          : `<tr><td colspan="10" style="text-align:center; padding:26px; color:var(--n-400);">暂无微信报价记录，请通过上方输入框或 Windows 微信桌面插件上报真实群报价</td></tr>`;
+
+        document.getElementById("outbox-list").innerHTML = data.outbox.length
+          ? data.outbox.map(t => `
+              <div style="border:1px solid var(--n-200); border-radius:8px; padding:8px 10px; margin-bottom:6px; font-size:12px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                  <strong class="mono">#${t.id} → ${esc(t.target_recipients)}</strong>
+                  <span style="color:${t.status === "pending" ? "#c2410c" : "var(--emerald-600)"}; font-weight:500;">${t.status}</span>
+                </div>
+                <div style="color:var(--n-600); white-space:pre-line;">${esc(t.message_body)}</div>
+                <div style="text-align:right; margin-top:4px;"><button class="btn btn-danger-ghost btn-sm" onclick="deleteOutbox(${t.id})">移除</button></div>
+              </div>`).join("")
+          : `<div style="color:var(--n-400); font-size:12px;">暂无待分发任务</div>`;
+      } catch (e) {}
+    }
+
+    async function ingestWechatQuote() {
+      try {
+        const res = await apiJson("/api/wechat/ingest", {
+          method: "POST",
+          body: JSON.stringify({
+            source_name: document.getElementById("wx-group").value.trim(),
+            sender: document.getElementById("wx-sender").value.trim(),
+            raw_text: document.getElementById("wx-raw").value.trim()
+          })
+        });
+        document.getElementById("wx-raw").value = "";
+        showToast(`成功提取并落盘 ${res.inserted_count} 条牌号报价`, "ok");
+        await loadQuotes();
+        await refreshStatus();
+      } catch (e) { showToast(e.message, "err"); }
+    }
+
+    async function deleteQuote(id) {
+      await apiJson(`/api/quotes/${id}`, { method: "DELETE" });
+      await loadQuotes();
+      await refreshStatus();
+    }
+
+    async function createOutboxTask() {
+      const target_recipients = document.getElementById("outbox-targets").value.trim();
+      const custom_header = document.getElementById("outbox-header").value.trim();
+      const quote_ids = Array.from(document.querySelectorAll(".q-chk:checked")).map(c => Number(c.value));
+      try {
+        const res = await apiJson("/api/wechat/outbox", {
+          method: "POST",
+          body: JSON.stringify({ target_recipients, quote_ids, custom_header })
+        });
+        showToast(`已生成分发任务 #${res.task_id}，等待微信客户端轮询`, "ok");
+        await loadQuotes();
+      } catch (e) { showToast(e.message, "err"); }
+    }
+
+    async function deleteOutbox(id) {
+      await apiJson(`/api/wechat/outbox/${id}`, { method: "DELETE" });
+      await loadQuotes();
+    }
+
+    async function loadIntel() {
+      try {
+        const data = await apiJson("/api/intel");
+        const emNews = (data.records || []).filter(r => r.source_type === "eastmoney_news");
+        if (emNews.length) renderEastmoneyNews(emNews);
+
+        document.getElementById("intel-list").innerHTML = data.records.length
+          ? data.records.map(r => `
+              <div style="padding:10px 14px; border-bottom:1px solid var(--n-100);">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                  <strong style="font-size:13px;">${esc(r.title)}</strong>
+                  <div style="display:flex; gap:6px; align-items:center;">
+                    <span class="mono" style="font-size:11px; color:var(--n-400);">${esc(r.source_type)}</span>
+                    <button class="btn btn-danger-ghost btn-sm" onclick="deleteIntel(${r.id})">删除</button>
+                  </div>
+                </div>
+                <div style="font-size:12px; color:var(--n-600); margin-top:4px;">${esc((r.content || "").slice(0, 140))}</div>
+              </div>`).join("")
+          : `<div style="padding:30px; text-align:center; color:var(--n-400);">暂无情报记录</div>`;
+      } catch (e) {}
+    }
+
+    async function submitManualIntel() {
+      try {
+        await apiJson("/api/manual-intel", {
+          method: "POST",
+          body: JSON.stringify({
+            source_type: document.getElementById("intel-type").value,
+            effective_date: document.getElementById("intel-date").value,
+            title: document.getElementById("intel-title").value.trim(),
+            content: document.getElementById("intel-content").value.trim()
+          })
+        });
+        document.getElementById("intel-title").value = "";
+        document.getElementById("intel-content").value = "";
+        showToast("已写入装置检修 / 汇报情报", "ok");
+        await loadIntel();
+      } catch (e) { showToast(e.message, "err"); }
+    }
+
+    async function deleteIntel(id) {
+      await apiJson(`/api/intel/${id}`, { method: "DELETE" });
+      await loadIntel();
+    }
+
+    async function runScrape() {
+      const url = document.getElementById("scrape-url").value.trim();
+      try {
+        const res = await apiJson("/api/scrape", { method: "POST", body: JSON.stringify({ url }) });
+        showToast(`抓取成功：${res.title}`, "ok");
+        await loadIntel();
+      } catch (e) { showToast(e.message, "err"); }
+    }
+
+    /* =========================================================================
+       视图 3：公众号编辑室 + 图片生成模型 + 草稿箱
+       ========================================================================= */
+    async function insertLiveDataSkeleton() {
+      try {
+        const res = await apiJson("/api/articles/insert-live-data", {
+          method: "POST",
+          body: JSON.stringify({
+            template_id: document.getElementById("mp-template").value,
+            cover_image_url: document.getElementById("edit-art-cover").value.trim()
+          })
+        });
+        currentArticle.title = res.title;
+        currentArticle.raw_markdown = res.raw_markdown;
+        currentArticle.styled_html = res.styled_html;
+        document.getElementById("edit-art-title").value = res.title;
+        document.getElementById("edit-art-body").value = res.raw_markdown;
+        document.getElementById("mp-preview-container").innerHTML = res.styled_html;
+        showToast("已汇入今日真实盘面、报价与检修数据", "ok");
+      } catch (e) { showToast(e.message, "err"); }
+    }
+
+    async function generateMpArticle() {
+      try {
+        showToast("正在调用 Dify / 大模型撰写...");
+        const res = await apiJson("/api/ai/generate", {
+          method: "POST",
+          body: JSON.stringify({
+            mode: document.getElementById("mp-mode").value,
+            template_id: document.getElementById("mp-template").value,
+            topic: document.getElementById("mp-topic").value.trim(),
+            reference_template: document.getElementById("mp-ref-tpl").value.trim(),
+            cover_image_url: document.getElementById("edit-art-cover").value.trim()
+          })
+        });
+        currentArticle = { ...res, id: res.article_id };
+        document.getElementById("edit-art-title").value = res.title;
+        document.getElementById("edit-art-body").value = res.raw_markdown;
+        document.getElementById("mp-preview-container").innerHTML = res.styled_html;
+        showToast(`AI 生成成功 (${res.engine_note})`, "ok");
+        await loadArticles();
+      } catch (e) { showToast(e.message, "err"); }
+    }
+
+    async function saveArticleEdits(notify = true) {
+      const title = document.getElementById("edit-art-title").value.trim();
+      const raw_markdown = document.getElementById("edit-art-body").value;
+      const template_id = document.getElementById("mp-template").value;
+      const cover_image_url = document.getElementById("edit-art-cover").value.trim();
+      if (!title && !raw_markdown) return;
+      try {
+        const res = await apiJson("/api/articles", {
+          method: "POST",
+          body: JSON.stringify({ id: currentArticle.id, title, raw_markdown, template_id, cover_image_url })
+        });
+        currentArticle.id = res.article_id;
+        currentArticle.styled_html = res.styled_html;
+        document.getElementById("mp-preview-container").innerHTML = res.styled_html;
+        if (notify) showToast("已保存文章并刷新公众号排版", "ok");
+        await loadArticles();
+      } catch (e) { showToast(e.message, "err"); }
+    }
+
+    async function loadArticles() {
+      try {
+        const data = await apiJson("/api/articles");
+        document.getElementById("articles-history").innerHTML = data.articles.length
+          ? data.articles.map(a => `
+              <div style="padding:10px 12px; border-bottom:1px solid var(--n-100); cursor:pointer;" onclick='loadArticleToEditor(${JSON.stringify(a).replace(/'/g, "&#39;")})'>
+                <div style="font-size:12.5px; font-weight:500; color:var(--n-900);">${esc(a.title)}</div>
+                <div class="mono" style="font-size:11px; color:var(--n-400); margin-top:2px;">${esc(a.status)} · ${esc(a.updated_at)}</div>
+              </div>`).join("")
+          : `<div style="padding:18px; text-align:center; color:var(--n-400); font-size:12px;">暂无历史稿件</div>`;
+      } catch (e) {}
+    }
+
+    function loadArticleToEditor(a) {
+      currentArticle = { id: a.id, title: a.title, raw_markdown: a.raw_markdown, styled_html: a.styled_html, template_id: a.template_id, cover_image_url: a.cover_image_url || "" };
+      document.getElementById("edit-art-title").value = a.title;
+      document.getElementById("edit-art-body").value = a.raw_markdown;
+      document.getElementById("edit-art-cover").value = a.cover_image_url || "";
+      document.getElementById("mp-template").value = a.template_id || "hengye_daily";
+      document.getElementById("mp-preview-container").innerHTML = a.styled_html;
+    }
+
+    async function generateAiImage() {
+      const prompt = document.getElementById("img-gen-prompt").value.trim();
+      try {
+        showToast("正在调用图片模型 API 生成配图...");
+        const res = await apiJson("/api/images/generate", { method: "POST", body: JSON.stringify({ prompt }) });
+        showToast(`配图生成成功 (${res.model})`, "ok");
+        await loadImagesGallery();
+        await refreshStatus();
+      } catch (e) { showToast(e.message, "err"); }
+    }
+
+    async function loadImagesGallery() {
+      try {
+        const data = await apiJson("/api/images");
+        const box = document.getElementById("image-gallery");
+        const imgs = data.images || [];
+        if (!imgs.length) {
+          box.innerHTML = `<div style="grid-column:1/-1; font-size:12px; color:var(--n-400); padding:10px 0;">暂无 AI 生成图，可配置图片模型 API Key 生成，或在首页点击选用新浪走势图/东财新闻图</div>`;
+          return;
+        }
+        box.innerHTML = imgs.map(im => `
+          <div style="border:1px solid var(--n-200); border-radius:8px; overflow:hidden; background:#fff;">
+            <img src="${esc(im.image_url)}" style="width:100%; height:76px; object-fit:cover; display:block;" />
+            <div style="padding:4px; display:flex; gap:4px;">
+              <button class="btn btn-secondary btn-sm" style="flex:1; height:22px; font-size:11px;" onclick="setCoverImage('${esc(im.image_url)}')">封面</button>
+              <button class="btn btn-secondary btn-sm" style="flex:1; height:22px; font-size:11px;" onclick="insertImageToArticle('${esc(im.image_url)}', '${esc(im.prompt.slice(0,20))}')">插图</button>
+            </div>
+          </div>`).join("");
+      } catch (e) {}
+    }
+
+    function setCoverImage(url) {
+      document.getElementById("edit-art-cover").value = url;
+      saveArticleEdits(false);
+      showToast("已设为当前公众号封面图", "ok");
+    }
+
+    function insertImageToArticle(url, alt = "行情配图") {
+      const ta = document.getElementById("edit-art-body");
+      ta.value = (ta.value ? ta.value + "\n\n" : "") + `![${alt}](${url})\n`;
+      saveArticleEdits(false);
+      showToast("已将图片插入正文 Markdown 并重绘预览", "ok");
+    }
+
+    async function uploadThumbToWechat() {
+      const image_url = document.getElementById("edit-art-cover").value.trim();
+      try {
+        const res = await apiJson("/api/mp/upload-thumb", { method: "POST", body: JSON.stringify({ image_url }) });
+        showToast(`上传微信永久封面成功！media_id=${res.media_id}`, "ok");
+        await loadConfig();
+      } catch (e) { showToast(e.message, "err"); }
+    }
+
+    async function copyWechatRichHtml() {
+      const html = currentArticle.styled_html || document.getElementById("mp-preview-container").innerHTML;
+      try {
+        await navigator.clipboard.write([new ClipboardItem({
+          "text/html": new Blob([html], { type: "text/html" }),
+          "text/plain": new Blob([document.getElementById("mp-preview-container").innerText], { type: "text/plain" })
+        })]);
+        showToast("已复制微信兼容富文本", "ok");
+      } catch (e) {
+        await navigator.clipboard.writeText(html);
+        showToast("已复制 HTML 源码", "ok");
+      }
+    }
+
+    async function pushMpDraft() {
+      const box = document.getElementById("mp-push-status");
+      box.style.display = "block";
+      box.textContent = "正在推送到微信公众号草稿箱...";
+      try {
+        const res = await apiJson("/api/mp/draft", {
+          method: "POST",
+          body: JSON.stringify({
+            article_id: currentArticle.id,
+            title: document.getElementById("edit-art-title").value.trim() || currentArticle.title,
+            styled_html: currentArticle.styled_html || document.getElementById("mp-preview-container").innerHTML
+          })
+        });
+        box.textContent = `推送成功！media_id: ${res.media_id}`;
+        showToast("已存入微信公众号草稿箱", "ok");
+        await loadWechatLogs();
+      } catch (e) {
+        box.textContent = e.message;
+        showToast(e.message, "err");
+        await loadWechatLogs();
+      }
+    }
+
+    /* =========================================================================
+       视图 4：画布板块
+       ========================================================================= */
+    async function loadCanvasProjects() {
+      try {
+        const data = await apiJson("/api/canvas");
+        canvasProjects = data.projects || [];
+        const sel = document.getElementById("canvas-proj-select");
+        if (!canvasProjects.length) {
+          sel.innerHTML = `<option value="0">暂无画布项目（点击右侧新建）</option>`;
+          canvasProject = { id: 0, name: "", nodes: [], edges: [] };
+          renderCanvas();
+          return;
+        }
+        sel.innerHTML = canvasProjects.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join("");
+        if (!canvasProject.id || !canvasProjects.some(p => p.id === canvasProject.id)) {
+          canvasProject = canvasProjects[0];
+        } else {
+          canvasProject = canvasProjects.find(p => p.id === canvasProject.id);
+        }
+        sel.value = canvasProject.id;
+        renderCanvas();
+      } catch (e) {}
+    }
+
+    function selectCanvasProject(id) {
+      const found = canvasProjects.find(p => String(p.id) === String(id));
+      if (found) {
+        canvasProject = found;
+        selectedNodeId = null;
+        document.getElementById("node-inspector").style.display = "none";
+        document.getElementById("node-inspector-empty").style.display = "block";
+        renderCanvas();
+      }
+    }
+
+    async function createCanvasProject() {
+      const name = prompt("请输入新画布名称：", `新月短剧与配图画布 ${new Date().toLocaleTimeString().slice(0,5)}`);
+      if (!name) return;
+      const res = await apiJson("/api/canvas", { method: "POST", body: JSON.stringify({ action: "create", name }) });
+      canvasProject.id = res.id;
+      await loadCanvasProjects();
+      showToast("已创建画布项目", "ok");
+    }
+
+    async function deleteCanvasProject() {
+      if (!canvasProject.id) return;
+      await apiJson(`/api/canvas/${canvasProject.id}`, { method: "DELETE" });
+      canvasProject.id = 0;
+      await loadCanvasProjects();
+      showToast("已删除画布");
+    }
+
+    function renderCanvas() {
+      const layer = document.getElementById("canvas-nodes-layer");
+      layer.innerHTML = "";
+      (canvasProject.nodes || []).forEach(node => {
+        const el = document.createElement("div");
+        el.className = "c-node" + (node.id === selectedNodeId ? " selected" : "");
+        el.dataset.id = node.id;
+        el.style.left = node.x + "px";
+        el.style.top = node.y + "px";
+        const imgTag = node.image_url ? `<img src="${esc(node.image_url)}" style="width:100%;height:96px;object-fit:cover;border-radius:6px;margin-top:6px;border:1px solid var(--n-200);" />` : "";
+        el.innerHTML = `
+          <div class="c-node-head">
+            <span>${esc(node.title)}</span>
+            <span class="mono" style="font-size:10.5px; color:var(--n-400);">${esc(node.type)}</span>
+          </div>
+          <div class="c-node-body">${esc(node.content || "点击右侧编辑或执行...")}${imgTag}</div>
+        `;
+        el.addEventListener("mousedown", (e) => {
+          selectCanvasNode(node.id);
+          const sx = e.clientX, sy = e.clientY, ox = node.x, oy = node.y;
+          const onMove = (me) => {
+            node.x = Math.max(12, ox + (me.clientX - sx));
+            node.y = Math.max(12, oy + (me.clientY - sy));
+            el.style.left = node.x + "px";
+            el.style.top = node.y + "px";
+            renderCanvasEdges();
+          };
+          const onUp = () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseup", onUp); };
+          window.addEventListener("mousemove", onMove);
+          window.addEventListener("mouseup", onUp);
+        });
+        layer.appendChild(el);
+      });
+      renderCanvasEdges();
+    }
+
+    function renderCanvasEdges() {
+      const svg = document.getElementById("canvas-svg");
+      const map = {};
+      (canvasProject.nodes || []).forEach(n => map[n.id] = n);
+      let paths = `<defs><marker id="dub-arr" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#737373" /></marker></defs>`;
+      (canvasProject.edges || []).forEach(ed => {
+        const s = map[ed.from], d = map[ed.to];
+        if (!s || !d) return;
+        const x1 = s.x + 265, y1 = s.y + 48, x2 = d.x, y2 = d.y + 48, cx = (x1 + x2) / 2;
+        paths += `<path d="M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}" stroke="#737373" stroke-width="1.8" fill="none" marker-end="url(#dub-arr)" />`;
+      });
+      svg.innerHTML = paths;
+    }
+
+    function selectCanvasNode(id) {
+      selectedNodeId = id;
+      document.querySelectorAll(".c-node").forEach(el => el.classList.toggle("selected", el.dataset.id === id));
+      const node = canvasProject.nodes.find(n => n.id === id);
+      if (!node) return;
+      document.getElementById("node-inspector-empty").style.display = "none";
+      document.getElementById("node-inspector").style.display = "flex";
+      document.getElementById("insp-meta").textContent = `${node.id} · ${node.type}`;
+      document.getElementById("insp-title").value = node.title;
+      document.getElementById("insp-content").value = node.content || "";
+      const imgBox = document.getElementById("insp-img-preview");
+      if (node.image_url) {
+        imgBox.style.display = "block";
+        document.getElementById("insp-img-el").src = node.image_url;
+      } else {
+        imgBox.style.display = "none";
+      }
+      document.getElementById("insp-connect-target").innerHTML = canvasProject.nodes
+        .filter(n => n.id !== id).map(n => `<option value="${n.id}">${esc(n.title)}</option>`).join("");
+    }
+
+    function updateSelectedNodeField(f, v) {
+      const node = canvasProject.nodes.find(n => n.id === selectedNodeId);
+      if (!node) return;
+      node[f] = v;
+      renderCanvas();
+    }
+
+    function addCanvasNode(type) {
+      if (!canvasProject.id) { showToast("请先新建一个画布项目", "err"); return; }
+      const id = "n-" + Date.now();
+      const last = canvasProject.nodes[canvasProject.nodes.length - 1];
+      const n = {
+        id,
+        type,
+        title: type === "image_gen" ? "AI 配图生成节点" : "AI 文本 / 剧本节点",
+        x: last ? last.x + 40 : 40,
+        y: last ? last.y + 180 : 60,
+        status: "ready",
+        content: "",
+        image_url: ""
+      };
+      canvasProject.nodes.push(n);
+      renderCanvas();
+      selectCanvasNode(id);
+    }
+
+    function deleteSelectedNode() {
+      if (!selectedNodeId) return;
+      canvasProject.nodes = canvasProject.nodes.filter(n => n.id !== selectedNodeId);
+      canvasProject.edges = canvasProject.edges.filter(e => e.from !== selectedNodeId && e.to !== selectedNodeId);
+      selectedNodeId = null;
+      document.getElementById("node-inspector").style.display = "none";
+      document.getElementById("node-inspector-empty").style.display = "block";
+      renderCanvas();
+    }
+
+    function connectSelectedToTarget() {
+      const tid = document.getElementById("insp-connect-target").value;
+      if (!selectedNodeId || !tid) return;
+      if (!canvasProject.edges.some(e => e.from === selectedNodeId && e.to === tid)) {
+        canvasProject.edges.push({ from: selectedNodeId, to: tid });
+        renderCanvasEdges();
+      }
+    }
+
+    async function runSelectedCanvasNode() {
+      const node = canvasProject.nodes.find(n => n.id === selectedNodeId);
+      if (!node) return;
+      const ups = canvasProject.edges.filter(e => e.to === node.id).map(e => e.from);
+      const upstream_text = canvasProject.nodes.filter(n => ups.includes(n.id)).map(n => n.content).filter(Boolean).join("\n\n") || node.content;
+      try {
+        showToast("正在调用后端 API 执行节点...");
+        const res = await apiJson("/api/canvas", {
+          method: "POST",
+          body: JSON.stringify({ action: "run_node", node_type: node.type, node_title: node.title, upstream_text })
+        });
+        node.content = res.output;
+        if (res.image_url) node.image_url = res.image_url;
+        renderCanvas();
+        selectCanvasNode(node.id);
+        await saveCanvasProject();
+        await loadImagesGallery();
+        showToast(`节点执行完成 (${res.engine})`, "ok");
+      } catch (e) { showToast(e.message, "err"); }
+    }
+
+    function sendNodeImageToStudio() {
+      const node = canvasProject.nodes.find(n => n.id === selectedNodeId);
+      if (!node || !node.image_url) return;
+      insertImageToArticle(node.image_url, node.title);
+      switchView("view-studio", document.getElementById("nav-studio"));
+    }
+
+    async function saveCanvasProject() {
+      if (!canvasProject.id) return;
+      await apiJson("/api/canvas", {
+        method: "POST",
+        body: JSON.stringify({ action: "save", id: canvasProject.id, name: canvasProject.name, nodes: canvasProject.nodes, edges: canvasProject.edges })
+      });
+      showToast("画布状态已保存至 SQLite", "ok");
+    }
+
+    /* =========================================================================
+       视图 5：WeChat 接口中心（直接输出在网站内的接口文档、在线调试器与实时日志）
+       ========================================================================= */
+    async function loadWechatCenter() {
+      try {
+        const data = await apiJson("/api/wechat/endpoints");
+        wxEndpointsCache = data.endpoints || [];
+        document.getElementById("wx-endpoints-list").innerHTML = wxEndpointsCache.map(ep => `
+          <div style="padding:12px 16px; border-bottom:1px solid var(--n-100);">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:4px;">
+              <strong style="font-size:13px;">${esc(ep.name)}</strong>
+              <span class="mono" style="font-size:11px; padding:2px 7px; border-radius:5px; background:var(--blue-50); color:var(--blue-600);">${esc(ep.method)}</span>
+            </div>
+            <div class="mono" style="font-size:11.5px; color:var(--n-700); word-break:break-all; margin-bottom:4px;">${esc(ep.url)}</div>
+            <div style="font-size:12px; color:var(--n-500); margin-bottom:4px;">${esc(ep.desc)}</div>
+            <div style="font-size:11.5px; color:var(--n-600); margin-bottom:6px;">鉴权：${esc(ep.auth || "")}</div>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-secondary btn-sm" onclick="navigator.clipboard.writeText('${esc(ep.url)}'); showToast('已复制接口 URL', 'ok')">复制 URL</button>
+              <button class="btn btn-secondary btn-sm" onclick="navigator.clipboard.writeText('${esc(data.wx_plugin_token || "")}'); showToast('已复制 X-WeChat-Token', 'ok')">复制 Token</button>
+            </div>
+          </div>
+        `).join("");
+
+        const sel = document.getElementById("wx-test-select");
+        sel.innerHTML = wxEndpointsCache.map(ep => `<option value="${ep.id}">${esc(ep.name)}</option>`).join("");
+        if (wxEndpointsCache.length) onSelectWxEndpoint(wxEndpointsCache[0].id);
+
+        const pluginText = await (await fetch("/api/wechat/plugin-script")).text();
+        document.getElementById("wx-plugin-code").textContent = pluginText;
+        await loadWechatLogs();
+      } catch (e) {}
+    }
+
+    function onSelectWxEndpoint(id) {
+      const ep = wxEndpointsCache.find(x => x.id === id);
+      if (!ep) return;
+      document.getElementById("wx-test-method").value = ep.method;
+      document.getElementById("wx-test-url").value = ep.url;
+      document.getElementById("wx-test-body").value = ep.sample_body ? JSON.stringify(ep.sample_body, null, 2) : "";
+    }
+
+    async function sendWxTestRequest() {
+      const method = document.getElementById("wx-test-method").value;
+      const url = document.getElementById("wx-test-url").value;
+      const bodyStr = document.getElementById("wx-test-body").value.trim();
+      const respBox = document.getElementById("wx-test-resp");
+      try {
+        const opts = { method, headers: { "Content-Type": "application/json" } };
+        if (method !== "GET" && bodyStr) opts.body = bodyStr;
+        const r = await fetch(url, opts);
+        const text = await r.text();
+        respBox.textContent = `HTTP ${r.status}\n` + text;
+        await loadWechatLogs();
+        await loadQuotes();
+      } catch (e) {
+        respBox.textContent = "请求异常：" + e.message;
+      }
+    }
+
+    async function loadWechatLogs() {
+      try {
+        const data = await apiJson("/api/wechat/logs");
+        document.getElementById("wx-logs-tbody").innerHTML = (data.logs || []).length
+          ? data.logs.map(l => `
+              <tr>
+                <td class="mono" style="font-size:11px; color:var(--n-500);">${esc(l.created_at)}</td>
+                <td class="mono" style="font-size:11.5px;"><strong>${esc(l.method)}</strong> ${esc(l.path)}</td>
+                <td class="mono" style="color:${l.status_code < 300 ? "var(--emerald-600)" : "var(--red-600)"}; font-weight:600;">${l.status_code}</td>
+                <td class="mono" style="font-size:11.5px;">${l.duration_ms}ms</td>
+                <td style="font-size:11.5px; color:var(--n-600);">${esc(l.response_summary)}</td>
+              </tr>`).join("")
+          : `<tr><td colspan="5" style="text-align:center; padding:24px; color:var(--n-400);">暂无 WeChat API 调用日志</td></tr>`;
+      } catch (e) {}
+    }
+
+    async function clearWechatLogs() {
+      await apiJson("/api/wechat/logs", { method: "DELETE" });
+      await loadWechatLogs();
+    }
+
+    function copyPluginSource() {
+      navigator.clipboard.writeText(document.getElementById("wx-plugin-code").textContent);
+      showToast("已复制 Windows 微信桌面插件源码", "ok");
+    }
+
+    /* =========================================================================
+       视图 6：系统配置
+       ========================================================================= */
+    const CONFIG_KEYS = [
+      "engine_mode", "dify_base_url",
+      "dify_key_price", "dify_key_daily", "dify_key_video", "dify_key_mp_clone", "dify_key_drama",
+      "llm_base_url", "llm_api_key", "llm_model",
+      "image_api_url", "image_api_key", "image_model",
+      "mp_appid", "mp_appsecret", "mp_author", "mp_thumb_media_id", "wx_plugin_token"
+    ];
+
+    async function rotateWxToken() {
+      try {
+        const res = await apiJson("/api/auth/rotate-wx-token", { method: "POST" });
+        document.getElementById("cfg-wx_plugin_token").value = res.wx_plugin_token;
+        showToast("已重置 PC 微信插件 Token，请同步更新桌面插件脚本", "ok");
+        await loadWechatCenter();
+      } catch (e) { showToast(e.message, "err"); }
+    }
+
+    async function changeAdminPassword() {
+      const old_password = document.getElementById("sec-old-pw").value;
+      const new_password = document.getElementById("sec-new-pw").value;
+      try {
+        await apiJson("/api/auth/change-password", {
+          method: "POST",
+          body: JSON.stringify({ old_password, new_password })
+        });
+        document.getElementById("sec-old-pw").value = "";
+        document.getElementById("sec-new-pw").value = "";
+        showToast("管理员登录密码已更新", "ok");
+      } catch (e) { showToast(e.message, "err"); }
+    }
+
+    async function loadConfig() {
+      try {
+        const data = await apiJson("/api/config");
+        const cfg = data.config || {};
+        CONFIG_KEYS.forEach(k => {
+          const el = document.getElementById("cfg-" + k);
+          if (el && cfg[k] !== undefined) el.value = cfg[k];
+        });
+      } catch (e) {}
+    }
+
+    function presetImg(url, model) {
+      document.getElementById("cfg-image_api_url").value = url;
+      document.getElementById("cfg-image_model").value = model;
+      showToast("已填入图片模型预设：" + model);
+    }
+
+    function presetLLM(url, model) {
+      document.getElementById("cfg-llm_base_url").value = url;
+      document.getElementById("cfg-llm_model").value = model;
+      showToast("已填入文本模型预设：" + model);
+    }
+
+    async function saveConfig() {
+      const payload = {};
+      CONFIG_KEYS.forEach(k => {
+        const el = document.getElementById("cfg-" + k);
+        if (el) payload[k] = el.value.trim();
+      });
+      try {
+        await apiJson("/api/config", { method: "POST", body: JSON.stringify(payload) });
+        showToast("系统配置已保存至 SQLite", "ok");
+        await refreshStatus();
+      } catch (e) { showToast(e.message, "err"); }
+    }
+
+    function bootWorkspace() {
+      document.getElementById("intel-date").value = new Date().toISOString().slice(0, 10);
+      updateChartImg();
+      loadLiveMarket(false).then(() => {
+        loadLiveMarket(true);
+      });
+      loadKline(currentSymbol);
+      loadQuotes();
+      loadIntel().then(() => {
+        const emBox = document.getElementById("eastmoney-news-list");
+        if (emBox && (emBox.children.length === 0 || emBox.textContent.includes("点击右上角"))) {
+          syncRealNews(false);
+        }
+      });
+      loadArticles();
+      loadImagesGallery();
+      loadCanvasProjects();
+      loadWechatCenter();
+      loadConfig();
+      refreshStatus();
+    }
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const me = await apiJson("/api/auth/me");
+        if (me.authenticated) {
+          showAppShell(me.username);
+          bootWorkspace();
+          return;
+        }
+      } catch (e) {}
+      showLoginGate();
+    });
+  </script>
+</body>
+</html>
